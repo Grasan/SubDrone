@@ -97,7 +97,6 @@ GameObject:
   - component: {fileID: 3643319740789821027}
   - component: {fileID: 3643319740789821026}
   - component: {fileID: 3643319740789821025}
-  - component: {fileID: 3643319740789821024}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Player
@@ -147,9 +146,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thrustAcceleration: 5
   rotationAcceleration: 2
-  maxRotationSpeed: 50
   maxThrustSpeed: 50
+  maxRotationSpeed: 50
   inverted: 1
+  collisionConstant: 0.25
 --- !u!33 &3643319740789821026
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -200,16 +200,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3643319740789821024
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3643319740789821023}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.9797058, y: 0.97563887, z: 5.0670385}
-  m_Center: {x: -0.00000008940697, y: 0.37650907, z: 0.26810718}
