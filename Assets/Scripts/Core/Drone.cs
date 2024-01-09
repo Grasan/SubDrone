@@ -7,38 +7,44 @@ public class Drone : MonoBehaviour {
     [SerializeField] private int score = 0;
     [Space]
     [Header("Speed and Rotation")]
-    [SerializeField] private float thrustAcceleration = 5.0f;
-    [SerializeField] private float rotationAcceleration = 2.0f;
-    [SerializeField] private float maxThrustSpeed = 200.0f;
-    [SerializeField] private float maxRotationSpeed = 50.0f;
+    [SerializeField] private float thrustAcceleration;
+    [SerializeField] private float rotationAcceleration;
+    [SerializeField] private float maxThrustSpeed;
+    [SerializeField] private float maxRotationSpeed;
     [Tooltip("Inverting the rotation the Y axis")]
     [SerializeField] private bool inverted = true;
     [Space]
     [Header("Constants")]
-    [Tooltip("For calculating the dammage on collisions. (CurrentSpeed / MaxSpeed) * Constant")]
+    [Tooltip("For calculating the dammage on collisions: (CurrentSpeed / MaxSpeed) * Constant")]
     [SerializeField] private float collisionConstant = 0.25f;
-    
+
     // current speeds
-    private float currentForwardSpeed;
-    private float currentElevationSpeed;
-    private float currentYawSpeed;
-    private float currentPitchSpeed;
-    private float currentRollSpeed;
-    
+    [Space]
+    [Header("Current Speeds")]
+    [SerializeField] private float currentForwardSpeed;
+    [SerializeField] private float currentElevationSpeed;
+    [SerializeField] private float currentYawSpeed;
+    [SerializeField] private float currentPitchSpeed;
+    [SerializeField] private float currentRollSpeed;
+
     // Axis
-    private float thrustAxis;
-    private float elevationAxis;
-    private Vector2 rotationAxis;
-    private float rollAxis;
+    [Space]
+    [Header("Axis values")]
+    [SerializeField] private float thrustAxis;
+    [SerializeField] private float elevationAxis;
+    [SerializeField] private Vector2 rotationAxis;
+    [SerializeField] private float rollAxis;
 
     // Components
     private DroneControls controls;
     private BoxCollider col;
     private Interaclable interactable;
+    private Rigidbody rb;
 
     private void Awake () {
         controls = new DroneControls();
         col = GetComponent<BoxCollider>();
+        rb = GetComponent<Rigidbody>();
 
         // Controll setup
         // Thrust
@@ -61,22 +67,8 @@ public class Drone : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // Thrust
-        currentForwardSpeed = CalcThrustInput(currentForwardSpeed, thrustAxis);
-        // Elevation
-        currentElevationSpeed = CalcThrustInput(currentElevationSpeed, elevationAxis);
+        Move();
 
-        // Rotaion
-        if (inverted)
-            currentPitchSpeed = CalcRotationInput(currentPitchSpeed, rotationAxis.y);
-        else
-            currentPitchSpeed = CalcRotationInput(currentPitchSpeed, (rotationAxis.y * -1));
-        currentYawSpeed = CalcRotationInput(currentYawSpeed, rotationAxis.x);
-        currentRollSpeed = CalcRotationInput(currentRollSpeed, rollAxis);
-
-        // Applying movement and rotation.
-        transform.Translate(new Vector3(0, currentElevationSpeed, currentForwardSpeed) * Time.deltaTime);
-        transform.Rotate(new Vector3(currentPitchSpeed, currentYawSpeed, currentRollSpeed) * Time.deltaTime);
     }
 
     public void Interact() {
@@ -107,15 +99,30 @@ public class Drone : MonoBehaviour {
 
     private void checkIntegrity() {
         if (droneIntegrity <= 0) {
-
+            OnDisable();
         }
     }
 
     // Movement functions
-    private float CalcThrustInput(float speed, float axisValue) {
+    private float CalcThrustInput(float current, float axisValue) {
         float target = maxThrustSpeed * axisValue;
 
-        return Mathf.Lerp(speed, target, thrustAcceleration * Time.deltaTime);
+        var maxAxisAndThust = axisValue >= 0.75f && current >= (maxThrustSpeed * 0.975f);
+        var minAxisAndThrust = axisValue <= 0.25f && current <= (maxThrustSpeed * 0.025f);
+        var maxAxisAndThustNeg = axisValue <= -0.9f && current <= (maxThrustSpeed * -0.975f); 
+        var minAxisAndThrustNeg = axisValue >= -0.1f && current >= (maxThrustSpeed * -0.025f);
+
+        // I dont really like this, but it's better then wating for ages to reach 0 or max-speeds
+        // OBS: it's not working... why?
+        if (maxAxisAndThust)
+            return maxThrustSpeed;
+        else if (maxAxisAndThustNeg)
+            return maxThrustSpeed * -1;
+        else if (minAxisAndThrust || minAxisAndThrustNeg)
+            return 0.0f;
+        else
+            return Mathf.Lerp(current, target, thrustAcceleration * Time.deltaTime);
+
     }
     private float CalcRotationInput(float speed, float AxisValue) {
         float target = maxRotationSpeed * AxisValue;
@@ -123,13 +130,27 @@ public class Drone : MonoBehaviour {
         return Mathf.Lerp(speed, target, rotationAcceleration * Time.deltaTime);
     }
 
-    // Controlls enabling
-    private void OnEnable() {
-        controls.Gameplay.Enable();
-    }
-    private void OnDisable() { 
-        controls.Gameplay.Disable();
+    private void Move() {
+        // Thrust
+        currentForwardSpeed = CalcThrustInput(currentForwardSpeed, thrustAxis);
+        // Elevation
+        currentElevationSpeed = CalcThrustInput(currentElevationSpeed, elevationAxis);
+
+        // Rotaion
+        if (inverted)
+            currentPitchSpeed = CalcRotationInput(currentPitchSpeed, rotationAxis.y);
+        else
+            currentPitchSpeed = CalcRotationInput(currentPitchSpeed, (rotationAxis.y * -1));
+        currentYawSpeed = CalcRotationInput(currentYawSpeed, rotationAxis.x);
+        currentRollSpeed = CalcRotationInput(currentRollSpeed, rollAxis);
+
+        // Applying movement and rotation.
+        transform.Translate(new Vector3(0, 0, currentForwardSpeed) * Time.deltaTime);
+        transform.Rotate(new Vector3(currentPitchSpeed, currentYawSpeed, currentRollSpeed) * Time.deltaTime);
     }
 
+    // Controlls enabling
+    private void OnEnable() { controls.Gameplay.Enable(); }
+    private void OnDisable() { controls.Gameplay.Disable(); }
     
 }

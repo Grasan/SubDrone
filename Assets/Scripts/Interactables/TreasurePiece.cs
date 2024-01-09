@@ -10,6 +10,7 @@ public class TreasurePiece : Treasure {
     public override void Interact() {
         base.Interact();
 
+        // Remove object from the scene
         Destroy(gameObject);
     }
 }

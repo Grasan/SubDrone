@@ -9,6 +9,5 @@ public class Treasure:Interaclable {
         player.EarnPoints(points);  // Give points to player
 
         // Play pickup sound
-
     }
 }

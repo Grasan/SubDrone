@@ -9,11 +9,12 @@ public abstract class Interaclable : MonoBehaviour {
 
     private void Awake() {
         trigger = GetComponent<SphereCollider>();
+        player = FindObjectOfType<Drone>();
     }
 
     void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            player = (Drone)other.GetComponent<Drone>();
+            player = GetComponent<Drone>();
             player.SetInteractable(this);
         }
     }
