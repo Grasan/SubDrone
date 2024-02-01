@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 158775705706744172}
   - component: {fileID: 158775705706744171}
   - component: {fileID: 158775705706744170}
+  - component: {fileID: 5891167236772737574}
   m_Layer: 0
   m_Name: Drone
   m_TagString: Player
@@ -134,12 +135,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droneIntegrity: 1
   score: 0
-  thrustAcceleration: 0.75
+  forwardAcceleration: 1.5
+  elevationAcceleration: 1.5
   rotationAcceleration: 2
-  maxThrustSpeed: 50
+  maxForwardSpeed: 25
+  maxElevationSpeed: 10
   maxRotationSpeed: 50
   inverted: 1
   collisionConstant: 0.25
+  currentForwardSpeed: 0
+  currentElevationSpeed: 0
+  currentYawSpeed: 0
+  currentPitchSpeed: 0
+  currentRollSpeed: 0
+  forwardAxis: 0
+  elevationAxis: 0
+  rotationAxis: {x: 0, y: 0}
+  rollAxis: 0
 --- !u!33 &158775705706744172
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -202,4 +214,20 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.9797058, y: 0.97563887, z: 5.0670385}
-  m_Center: {x: -0.00000008940697, y: 0.37650907, z: 0.26810718}
+  m_Center: {x: 0, y: 0.2, z: 0.5}
+--- !u!54 &5891167236772737574
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158775705706744163}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

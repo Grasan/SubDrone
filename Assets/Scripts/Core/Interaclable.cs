@@ -12,10 +12,17 @@ public abstract class Interaclable : MonoBehaviour {
         player = FindObjectOfType<Drone>();
     }
 
-    void OnTriggerEnter(Collider other) {
+    protected void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
             player = GetComponent<Drone>();
             player.SetInteractable(this);
+        }
+    }
+
+    protected void OnTriggerExit(Collider other) {
+        if (other.tag == "Player") {
+            player.SetInteractable(null);
+            player = null;
         }
     }
 

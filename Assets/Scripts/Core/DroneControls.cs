@@ -71,6 +71,15 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""d03c4311-db64-42b0-991d-717fb9c02147"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -91,7 +100,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Thrust"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -102,7 +111,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Thrust"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -124,7 +133,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Thrust"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -135,7 +144,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Thrust"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -157,7 +166,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Elevation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -168,7 +177,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Elevation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -190,7 +199,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Elevation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -201,7 +210,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Elevation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -212,7 +221,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -234,7 +243,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -245,7 +254,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/downArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -256,7 +265,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -267,7 +276,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -278,7 +287,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -289,7 +298,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Interaction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -311,7 +320,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -322,7 +331,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -344,7 +353,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -355,10 +364,32 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cda1d985-e7fb-4a52-8f9b-6b1a6da8edf7"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0a3f4aa4-a0ef-4be4-983e-12bb73ca9575"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -391,7 +422,30 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
             ]
         }
     ],
-    ""controlSchemes"": []
+    ""controlSchemes"": [
+        {
+            ""name"": ""Gamepad"",
+            ""bindingGroup"": ""Gamepad"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Keyboard"",
+            ""bindingGroup"": ""Keyboard"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
+                }
+            ]
+        }
+    ]
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
@@ -400,6 +454,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
         m_Gameplay_Rotation = m_Gameplay.FindAction("Rotation", throwIfNotFound: true);
         m_Gameplay_Roll = m_Gameplay.FindAction("Roll", throwIfNotFound: true);
         m_Gameplay_Interaction = m_Gameplay.FindAction("Interaction", throwIfNotFound: true);
+        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Newaction = m_Menu.FindAction("New action", throwIfNotFound: true);
@@ -467,6 +522,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Rotation;
     private readonly InputAction m_Gameplay_Roll;
     private readonly InputAction m_Gameplay_Interaction;
+    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @DroneControls m_Wrapper;
@@ -476,6 +532,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
         public InputAction @Rotation => m_Wrapper.m_Gameplay_Rotation;
         public InputAction @Roll => m_Wrapper.m_Gameplay_Roll;
         public InputAction @Interaction => m_Wrapper.m_Gameplay_Interaction;
+        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -500,6 +557,9 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                 @Interaction.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteraction;
                 @Interaction.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteraction;
                 @Interaction.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteraction;
+                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -519,6 +579,9 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                 @Interaction.started += instance.OnInteraction;
                 @Interaction.performed += instance.OnInteraction;
                 @Interaction.canceled += instance.OnInteraction;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -556,6 +619,24 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
         }
     }
     public MenuActions @Menu => new MenuActions(this);
+    private int m_GamepadSchemeIndex = -1;
+    public InputControlScheme GamepadScheme
+    {
+        get
+        {
+            if (m_GamepadSchemeIndex == -1) m_GamepadSchemeIndex = asset.FindControlSchemeIndex("Gamepad");
+            return asset.controlSchemes[m_GamepadSchemeIndex];
+        }
+    }
+    private int m_KeyboardSchemeIndex = -1;
+    public InputControlScheme KeyboardScheme
+    {
+        get
+        {
+            if (m_KeyboardSchemeIndex == -1) m_KeyboardSchemeIndex = asset.FindControlSchemeIndex("Keyboard");
+            return asset.controlSchemes[m_KeyboardSchemeIndex];
+        }
+    }
     public interface IGameplayActions
     {
         void OnThrust(InputAction.CallbackContext context);
@@ -563,6 +644,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
         void OnRotation(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

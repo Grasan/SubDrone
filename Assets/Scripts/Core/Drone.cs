@@ -4,12 +4,15 @@ public class Drone : MonoBehaviour {
     [Header("Stats")]
     [Tooltip("It's health... basicaly health.")]
     [SerializeField] private float droneIntegrity = 1;
+    [Tooltip("The points the player earn from cololecting treasure, aswell as collecting quest related items.")]
     [SerializeField] private int score = 0;
     [Space]
     [Header("Speed and Rotation")]
-    [SerializeField] private float thrustAcceleration;
+    [SerializeField] private float forwardAcceleration;
+    [SerializeField] private float elevationAcceleration;
     [SerializeField] private float rotationAcceleration;
-    [SerializeField] private float maxThrustSpeed;
+    [SerializeField] private float maxForwardSpeed;
+    [SerializeField] private float maxElevationSpeed;
     [SerializeField] private float maxRotationSpeed;
     [Tooltip("Inverting the rotation the Y axis")]
     [SerializeField] private bool inverted = true;
@@ -30,7 +33,7 @@ public class Drone : MonoBehaviour {
     // Axis
     [Space]
     [Header("Axis values")]
-    [SerializeField] private float thrustAxis;
+    [SerializeField] private float forwardAxis;
     [SerializeField] private float elevationAxis;
     [SerializeField] private Vector2 rotationAxis;
     [SerializeField] private float rollAxis;
@@ -41,15 +44,21 @@ public class Drone : MonoBehaviour {
     private Interaclable interactable;
     private Rigidbody rb;
 
-    private void Awake () {
+    private void Awake() {
         controls = new DroneControls();
         col = GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
 
+        currentForwardSpeed = 0f;
+        currentElevationSpeed = 0f;
+        currentYawSpeed = 0f;
+        currentPitchSpeed = 0f;
+        currentRollSpeed = 0f;
+
         // Controll setup
         // Thrust
-        controls.Gameplay.Thrust.performed += ctx => thrustAxis = ctx.ReadValue<float>();
-        controls.Gameplay.Thrust.canceled += ctx => thrustAxis = 0;
+        controls.Gameplay.Thrust.performed += ctx => forwardAxis = ctx.ReadValue<float>();
+        controls.Gameplay.Thrust.canceled += ctx => forwardAxis = 0;
 
         // Elevation
         controls.Gameplay.Elevation.performed += ctx => elevationAxis = ctx.ReadValue<float>();
@@ -91,11 +100,11 @@ public class Drone : MonoBehaviour {
         checkIntegrity();
     }
 
-    private float CalcCollisionDammage() {
+    /*private float CalcCollisionDammage() {
         float speedPercentage = currentForwardSpeed / maxThrustSpeed;
 
         return speedPercentage * collisionConstant;
-    }
+    }*/
 
     private void checkIntegrity() {
         if (droneIntegrity <= 0) {
@@ -104,53 +113,49 @@ public class Drone : MonoBehaviour {
     }
 
     // Movement functions
-    private float CalcThrustInput(float current, float axisValue) {
-        float target = maxThrustSpeed * axisValue;
+    private float CalcThrustInput(float currentSpeed, float maxSpeed, float acceleration, float axisValue) {
+        float target = maxSpeed * axisValue,
+            newVelocity = Mathf.Lerp(currentSpeed, target, acceleration * Time.deltaTime);
 
-        var maxAxisAndThust = axisValue >= 0.75f && current >= (maxThrustSpeed * 0.975f);
-        var minAxisAndThrust = axisValue <= 0.25f && current <= (maxThrustSpeed * 0.025f);
-        var maxAxisAndThustNeg = axisValue <= -0.9f && current <= (maxThrustSpeed * -0.975f); 
-        var minAxisAndThrustNeg = axisValue >= -0.1f && current >= (maxThrustSpeed * -0.025f);
-
-        // I dont really like this, but it's better then wating for ages to reach 0 or max-speeds
-        // OBS: it's not working... why?
-        if (maxAxisAndThust)
-            return maxThrustSpeed;
-        else if (maxAxisAndThustNeg)
-            return maxThrustSpeed * -1;
-        else if (minAxisAndThrust || minAxisAndThrustNeg)
-            return 0.0f;
+        if (!noAxisInput(newVelocity, axisValue))
+            return newVelocity;
         else
-            return Mathf.Lerp(current, target, thrustAcceleration * Time.deltaTime);
-
+            return 0;
     }
-    private float CalcRotationInput(float speed, float AxisValue) {
-        float target = maxRotationSpeed * AxisValue;
 
-        return Mathf.Lerp(speed, target, rotationAcceleration * Time.deltaTime);
+    private bool noAxisInput(float velocity, float axis) {
+        if (axis == 0 && velocity <= 0.05f && velocity >= -0.05f)
+            return true;
+        else
+            return false;
     }
 
     private void Move() {
         // Thrust
-        currentForwardSpeed = CalcThrustInput(currentForwardSpeed, thrustAxis);
-        // Elevation
-        currentElevationSpeed = CalcThrustInput(currentElevationSpeed, elevationAxis);
+        currentForwardSpeed = CalcThrustInput(currentForwardSpeed, maxForwardSpeed, forwardAcceleration, forwardAxis);
 
-        // Rotaion
+        // Elevation
+        currentElevationSpeed = CalcThrustInput(currentElevationSpeed, maxElevationSpeed, elevationAcceleration, elevationAxis);
+
+        // Rotaion Y
         if (inverted)
-            currentPitchSpeed = CalcRotationInput(currentPitchSpeed, rotationAxis.y);
+            currentPitchSpeed = CalcThrustInput(currentPitchSpeed, maxRotationSpeed, rotationAcceleration, rotationAxis.y);
         else
-            currentPitchSpeed = CalcRotationInput(currentPitchSpeed, (rotationAxis.y * -1));
-        currentYawSpeed = CalcRotationInput(currentYawSpeed, rotationAxis.x);
-        currentRollSpeed = CalcRotationInput(currentRollSpeed, rollAxis);
+            currentPitchSpeed = CalcThrustInput(currentPitchSpeed, maxRotationSpeed, rotationAcceleration, (rotationAxis.y * -1));
+
+        // Rotatio X
+        currentYawSpeed = CalcThrustInput(currentYawSpeed, maxRotationSpeed, rotationAcceleration, rotationAxis.x);
+
+        // Roll
+        currentRollSpeed = CalcThrustInput(currentRollSpeed, maxRotationSpeed, rotationAcceleration, rollAxis);
 
         // Applying movement and rotation.
-        transform.Translate(new Vector3(0, 0, currentForwardSpeed) * Time.deltaTime);
+        transform.Translate(new Vector3(0, currentElevationSpeed, currentForwardSpeed) * Time.deltaTime);
         transform.Rotate(new Vector3(currentPitchSpeed, currentYawSpeed, currentRollSpeed) * Time.deltaTime);
     }
 
     // Controlls enabling
     private void OnEnable() { controls.Gameplay.Enable(); }
     private void OnDisable() { controls.Gameplay.Disable(); }
-    
+
 }
