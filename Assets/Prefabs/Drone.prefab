@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 158775705706744174}
   - component: {fileID: 158775705706744173}
+  - component: {fileID: 4581804126991152221}
   - component: {fileID: 158775705706744172}
   - component: {fileID: 158775705706744171}
   - component: {fileID: 158775705706744170}
@@ -135,23 +136,130 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droneIntegrity: 1
   score: 0
-  forwardAcceleration: 1.5
-  elevationAcceleration: 1.5
-  rotationAcceleration: 2
-  maxForwardSpeed: 25
-  maxElevationSpeed: 10
-  maxRotationSpeed: 50
+  thrustAcceleration: 15
+  ThrustDeceleration: 18
+  maxForwardSpeed: 30
+  maxElevationSpeed: 25
+  rotationAcceleration: 12
+  rotationDeceleration: 14
+  maxRotationSpeed: 25
   inverted: 1
-  collisionConstant: 0.25
-  currentForwardSpeed: 0
-  currentElevationSpeed: 0
-  currentYawSpeed: 0
-  currentPitchSpeed: 0
-  currentRollSpeed: 0
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentAngularRotation: {x: 0, y: 0, z: 0}
   forwardAxis: 0
   elevationAxis: 0
   rotationAxis: {x: 0, y: 0}
   rollAxis: 0
+--- !u!114 &4581804126991152221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158775705706744163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 082c428b52f699d40884f823621ed5c8, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158775705706744173}
+        m_TargetAssemblyTypeName: Drone, Assembly-CSharp
+        m_MethodName: AccelerateForward
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: de1ade7a-b838-40c9-90bb-9ff2158e34c0
+    m_ActionName: Gameplay/Thrust[/XInputControllerWindows/rightTrigger,/XInputControllerWindows/leftTrigger,/Keyboard/w,/Keyboard/s]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158775705706744173}
+        m_TargetAssemblyTypeName: Drone, Assembly-CSharp
+        m_MethodName: AccelerateElevation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 16c7c244-aee4-45e2-9731-b23a33d21f97
+    m_ActionName: Gameplay/Elevation[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonEast,/Keyboard/space,/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158775705706744173}
+        m_TargetAssemblyTypeName: Drone, Assembly-CSharp
+        m_MethodName: Rotation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 192c191b-c709-42c6-acf7-8d062b325f2d
+    m_ActionName: Gameplay/Rotation[/XInputControllerWindows/leftStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158775705706744173}
+        m_TargetAssemblyTypeName: Drone, Assembly-CSharp
+        m_MethodName: Roll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: dbf0a566-7ea8-40f9-b107-289d1d5725ac
+    m_ActionName: Gameplay/Roll[/XInputControllerWindows/rightShoulder,/XInputControllerWindows/leftShoulder,/Keyboard/e,/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 158775705706744173}
+        m_TargetAssemblyTypeName: Drone, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c8ee2d03-5d68-47c0-9aab-10fcfe955b5c
+    m_ActionName: Gameplay/Interaction[/XInputControllerWindows/buttonWest,/Keyboard/f]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 158775705032116168}
 --- !u!33 &158775705706744172
 MeshFilter:
   m_ObjectHideFlags: 0

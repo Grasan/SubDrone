@@ -70,16 +70,7 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""d03c4311-db64-42b0-991d-717fb9c02147"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -368,56 +359,6 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cda1d985-e7fb-4a52-8f9b-6b1a6da8edf7"",
-                    ""path"": ""<Gamepad>/start"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0a3f4aa4-a0ef-4be4-983e-12bb73ca9575"",
-                    ""path"": ""<Keyboard>/p"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Menu"",
-            ""id"": ""57f7cc68-be11-4a5a-b98b-8dfd55ba9b86"",
-            ""actions"": [
-                {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""8f149295-7217-42f7-bfaa-9dc90e3bf386"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""2ebcbef0-ee00-40ac-8de6-4c64c83f2bd7"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -454,10 +395,6 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
         m_Gameplay_Rotation = m_Gameplay.FindAction("Rotation", throwIfNotFound: true);
         m_Gameplay_Roll = m_Gameplay.FindAction("Roll", throwIfNotFound: true);
         m_Gameplay_Interaction = m_Gameplay.FindAction("Interaction", throwIfNotFound: true);
-        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
-        // Menu
-        m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_Newaction = m_Menu.FindAction("New action", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -522,7 +459,6 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Rotation;
     private readonly InputAction m_Gameplay_Roll;
     private readonly InputAction m_Gameplay_Interaction;
-    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @DroneControls m_Wrapper;
@@ -532,7 +468,6 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
         public InputAction @Rotation => m_Wrapper.m_Gameplay_Rotation;
         public InputAction @Roll => m_Wrapper.m_Gameplay_Roll;
         public InputAction @Interaction => m_Wrapper.m_Gameplay_Interaction;
-        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -557,9 +492,6 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                 @Interaction.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteraction;
                 @Interaction.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteraction;
                 @Interaction.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInteraction;
-                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -579,46 +511,10 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
                 @Interaction.started += instance.OnInteraction;
                 @Interaction.performed += instance.OnInteraction;
                 @Interaction.canceled += instance.OnInteraction;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
             }
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
-
-    // Menu
-    private readonly InputActionMap m_Menu;
-    private IMenuActions m_MenuActionsCallbackInterface;
-    private readonly InputAction m_Menu_Newaction;
-    public struct MenuActions
-    {
-        private @DroneControls m_Wrapper;
-        public MenuActions(@DroneControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Menu_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_Menu; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
-        public void SetCallbacks(IMenuActions instance)
-        {
-            if (m_Wrapper.m_MenuActionsCallbackInterface != null)
-            {
-                @Newaction.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
-                @Newaction.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
-                @Newaction.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnNewaction;
-            }
-            m_Wrapper.m_MenuActionsCallbackInterface = instance;
-            if (instance != null)
-            {
-                @Newaction.started += instance.OnNewaction;
-                @Newaction.performed += instance.OnNewaction;
-                @Newaction.canceled += instance.OnNewaction;
-            }
-        }
-    }
-    public MenuActions @Menu => new MenuActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -644,10 +540,5 @@ public partial class @DroneControls : IInputActionCollection2, IDisposable
         void OnRotation(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
-    }
-    public interface IMenuActions
-    {
-        void OnNewaction(InputAction.CallbackContext context);
     }
 }
