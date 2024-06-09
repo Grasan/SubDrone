@@ -1,13 +1,21 @@
-using UnityEngine;
+public class Treasure : Interactable {
+    public TreasureSO treasureSO;
 
-public class Treasure:Interaclable {
+    // Components
+    //private MeshFilter filter;
+    //private MeshRenderer renderer;
 
-    [SerializeField] private int points;
-    [SerializeField] private AudioClip pickupSound;
+    private void Awake() {
+        //filter = GetComponent<MeshFilter>();
+        //renderer = GetComponent<MeshRenderer>();
+
+        //filter.mesh = treasureSO.model;
+        //renderer.material = treasureSO.material;
+    }
+
 
     public override void Interact() {
-        player.EarnPoints(points);  // Give points to player
-
-        // Play pickup sound
+        player.EarnPoints(treasureSO.points);
     }
+
 }

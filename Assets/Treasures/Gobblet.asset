@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9986b49d65330d8498f986f5de5ac874, type: 3}
+  m_Name: Gobblet
+  m_EditorClassIdentifier: 
+  name: Golden Gobblet
+  points: 10
+  model: {fileID: 2534964839176971238, guid: 409ed80d3d55388438effadcf303298f, type: 3}
+  material: {fileID: 0}
+  type: 0
