@@ -144,12 +144,7 @@ MonoBehaviour:
   rotationDeceleration: 38
   maxRotationSpeed: 35
   inverted: 1
-  currentVelocity: {x: 0, y: 0, z: 0}
-  currentAngularRotation: {x: 0, y: 0, z: 0}
-  forwardAxis: 0
-  elevationAxis: 0
-  rotationAxis: {x: 0, y: 0}
-  rollAxis: 0
+  collisionConstant: 0.25
 --- !u!114 &4581804126991152221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +239,7 @@ MonoBehaviour:
       - m_Target: {fileID: 158775705706744173}
         m_TargetAssemblyTypeName: Drone, Assembly-CSharp
         m_MethodName: Interact
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -321,7 +316,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9797058, y: 0.97563887, z: 5.0670385}
+  m_Size: {x: 2, y: 1, z: 5.2}
   m_Center: {x: 0, y: 0.2, z: 0.5}
 --- !u!54 &5891167236772737574
 Rigidbody:
@@ -332,8 +327,8 @@ Rigidbody:
   m_GameObject: {fileID: 158775705706744163}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 1
+  m_Drag: 5
+  m_AngularDrag: 5
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0

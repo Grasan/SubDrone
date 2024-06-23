@@ -20,7 +20,7 @@ public class Drone : MonoBehaviour {
     [SerializeField] private float rotationAcceleration;
     [SerializeField] private float rotationDeceleration;
     [SerializeField] private float maxRotationSpeed;
-    [Tooltip("Inverting the rotation the Y axis")]
+    [Tooltip("Inverting the rotation in the Y axis")]
     [SerializeField] private bool inverted = true;
     [Space]
     #endregion
@@ -38,14 +38,14 @@ public class Drone : MonoBehaviour {
     #region Axis
     [Space]
     [Header("Axis values")]
-    private float forwardAxis;
-    private float elevationAxis;
-    private Vector2 rotationAxis;
-    private float rollAxis;
+    [SerializeField] private float forwardAxis;
+    [SerializeField] private float elevationAxis;
+    [SerializeField] private Vector2 rotationAxis;
+    [SerializeField] private float rollAxis;
     #endregion
     #region Components
     private BoxCollider col;
-    private Interactable interactable;
+    [SerializeField] private Interactable interactable;
     private Rigidbody rb;
     #endregion
 
@@ -81,11 +81,8 @@ public class Drone : MonoBehaviour {
     }
     public void Rotation(InputAction.CallbackContext ctx) {
         Vector2 input = ctx.ReadValue<Vector2>();
-
-        if (inverted)
-            rotationAxis = new Vector2(input.x, -input.y);
-        else
-            rotationAxis = input;
+        rotationAxis = inverted ? new Vector2(input.x, -input.y) : input;
+        
     }
     public void Roll(InputAction.CallbackContext ctx) {
         rollAxis = ctx.ReadValue<float>();
@@ -99,6 +96,7 @@ public class Drone : MonoBehaviour {
         else
             currentVelocity = Vector3.MoveTowards(currentVelocity, Vector3.zero, ThrustDeceleration * Time.fixedDeltaTime);
 
+        // Applying movement.
         rb.MovePosition(rb.position + transform.TransformDirection(currentVelocity) * Time.fixedDeltaTime);
     }
     private void Rotate() {        
@@ -123,14 +121,12 @@ public class Drone : MonoBehaviour {
     public void Interact(InputAction.CallbackContext ctx) {
         if (ctx.phase == InputActionPhase.Performed && interactable != null)
             interactable.Interact();
-
     }
     public void SetInteractable(Interactable interactable) {
         this.interactable = interactable;
     }
     public void EarnPoints(int points) {
         score += points;
-        Debug.Log("Current amount of points: " + points);
     }
     #endregion
 
