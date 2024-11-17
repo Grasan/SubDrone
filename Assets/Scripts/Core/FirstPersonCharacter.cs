@@ -7,64 +7,105 @@ public class FirstPersonCharacter : MonoBehaviour {
     #region Movement Parameters
     [Header("Movement Parameters")]
     [SerializeField] private float maxMovementSpeed;
+    [SerializeField] private float gravity;
+    //[SerializeField] private float jumpHeight = 3f;   Probably not gonna be used
+    bool isGrounded;
+    [SerializeField] private float groundDistance;
+
     [Header("Rotation Parameters")]
-    [SerializeField] private float maxRotationSpeed;
+    [Tooltip("The sensitivity over the camera rotation for the mouse")]
+    [SerializeField] private float mouseSensitivity;
+    [Tooltip("The sensitivity over the camera rotation for a joystick")]
+    [SerializeField] private float joystickSensitivity;
+    [Tooltip("Note: Rotation downwards (in the camera perspective) are positive")]
     [SerializeField] private float minVerticleAngle;
+    [Tooltip("Note: Rotation upwards (in the camera perspective) are negative")]
     [SerializeField] private float maxVerticleAngle;
     [Tooltip("Inverting the rotation in the Y axis")]
-    [SerializeField] private bool inverted = true;
+    [SerializeField] private bool inverted;
     #endregion
-    #region Axis
+    
+    #region Current Axis
     [Space]
-    [Header("Axis values")]
-    private Vector2 movementAxis;
-    private Vector2 rotationAxis;
-    private float currVerticalRotation = 0f;
+    [SerializeField] private Vector2 movementInputAxis;
+    private Vector3 velocity;
+    [SerializeField] private Vector2 rotationInputAxis;
     #endregion
-    #region Current Speeds
-    private Vector3 currentSpeed;
-    private Vector3 currentAngularRotation;
-    #endregion
+    
     #region Components
     private Interactable interactable;
-    private Rigidbody rb;
+    private PlayerInput playerInput;
+    private string currentControllSchema;
+    private CharacterController characterController;
+    public Transform groundcheck;
+    public LayerMask groundMask;
     private Camera mainCamera;
     #endregion
 
     private void Awake() {
-        rb = GetComponent<Rigidbody>();
+        playerInput = GetComponent<PlayerInput>();
+        characterController = GetComponent<CharacterController>();
         mainCamera = GetComponentInChildren<Camera>();
+        Cursor.lockState = CursorLockMode.Locked;
 
-        movementAxis = Vector2.zero;
-        rotationAxis = Vector2.zero;
+        movementInputAxis = Vector2.zero;
+        rotationInputAxis = Vector2.zero;
     }
 
-    void FixedUpdate() {
+    private void Update() {
+        currentControllSchema = playerInput.currentControlScheme;
+
         Move();
         Look();
     }
 
-    #region Movement
+    #region Axis Input
     public void setMovementAxis(InputAction.CallbackContext ctx) {
-        movementAxis = ctx.ReadValue<Vector2>();   
+        movementInputAxis = ctx.ReadValue<Vector2>();
     }
     public void setRotationAxis(InputAction.CallbackContext ctx) { 
-        Vector2 input = ctx.ReadValue<Vector2>();
-        rotationAxis = inverted ? new (input.x, -input.y) : input;
+        rotationInputAxis = ctx.ReadValue<Vector2>();
     }
+    #endregion
 
+    #region Movement
+    // Player movement and camera rotation
     private void Move() {
-        Vector3 targetVelocity = transform.TransformDirection(new Vector3(movementAxis.x, 0, movementAxis.y) * maxMovementSpeed);
+        isGrounded = Physics.CheckSphere(groundcheck.position, groundDistance, groundMask);
+        if (isGrounded && velocity.y < 0) 
+            velocity.y = -2f;
 
-        rb.velocity = new Vector3(targetVelocity.x, rb.velocity.y, targetVelocity.z);
+        Vector3 horizontalMovement = new Vector3(movementInputAxis.x, 0, movementInputAxis.y);
+        Vector3 worldMovement = transform.TransformDirection(horizontalMovement) * maxMovementSpeed;
+
+        // Apply Movement
+        characterController.Move(worldMovement * Time.deltaTime);
+
+        // Gravity
+        velocity.y += gravity * Time.deltaTime;
+        characterController.Move(velocity * Time.deltaTime);
     }
     private void Look() {
-        transform.Rotate(Vector3.up * rotationAxis.x * maxRotationSpeed * Time.deltaTime);
+        float sensitivity = currentControllSchema == "Gamepad" ? joystickSensitivity : mouseSensitivity;
 
-        currVerticalRotation += rotationAxis.y * maxRotationSpeed * Time.deltaTime;
-        currVerticalRotation = Mathf.Clamp(currVerticalRotation, minVerticleAngle, maxVerticleAngle);
+        // Converting Vector2 values to floating values
+        float pitchRotation = rotationInputAxis.y * sensitivity * Time.deltaTime; 
+        float yawRotation = rotationInputAxis.x * sensitivity * Time.deltaTime;
 
-        mainCamera.transform.localEulerAngles = new Vector3(-currVerticalRotation, 0, 0);
+        // Invert Y axis if controll is inverted.
+        if (!inverted)
+            pitchRotation = -pitchRotation;
+
+        float currentPitch = mainCamera.transform.localEulerAngles.x;
+        if (currentPitch > 180f)
+            currentPitch -= 360f;
+
+        // Clamping the pitch rotation to stop the player from overspining in the Y-axis (camera perspective)
+        pitchRotation = Mathf.Clamp(currentPitch + pitchRotation, maxVerticleAngle, minVerticleAngle);
+
+        // Applying rotations
+        transform.Rotate(Vector3.up * yawRotation);
+        mainCamera.transform.localRotation = Quaternion.Euler(pitchRotation, 0f, 0f);
     }
     #endregion
 
