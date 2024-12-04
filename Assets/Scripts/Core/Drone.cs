@@ -32,8 +32,8 @@ public class Drone : MonoBehaviour {
     #region Current Speeds
     [Space]
     [Header("Current Speeds")]
-    private Vector3 currentVelocity;
-    private Vector3 currentAngularRotation;
+    [SerializeField] private Vector3 currentVelocity;
+    [SerializeField] private Vector3 currentAngularRotation;
     #endregion
     #region Axis
     [Space]
@@ -44,20 +44,20 @@ public class Drone : MonoBehaviour {
     [SerializeField] private float rollAxis;
     #endregion
     #region Components
-    private BoxCollider col;
-    [SerializeField] private Interactable interactable;
-    private Rigidbody rb;
+    private BoxCollider _col;
+    [SerializeField] private Interactable _interactable;
+    private Rigidbody _rb;
     #endregion
 
     private void Awake() {
         //Component Setup
         try {
-            col = GetComponent<BoxCollider>();
+            _col = GetComponent<BoxCollider>();
         } catch {
             Debug.LogError("Could not find the player's BoxCollider Component!");
         }
         try {
-            rb = GetComponent<Rigidbody>();
+            _rb = GetComponent<Rigidbody>();
         } catch {
             Debug.LogError("Could not find the player's RigidBody Component!");
         }
@@ -97,7 +97,7 @@ public class Drone : MonoBehaviour {
             currentVelocity = Vector3.MoveTowards(currentVelocity, Vector3.zero, ThrustDeceleration * Time.fixedDeltaTime);
 
         // Applying movement.
-        rb.MovePosition(rb.position + transform.TransformDirection(currentVelocity) * Time.fixedDeltaTime);
+        _rb.MovePosition(_rb.position + transform.TransformDirection(currentVelocity) * Time.fixedDeltaTime);
     }
     private void Rotate() {        
         Vector3 targetAngularVelocity = new(
@@ -113,17 +113,17 @@ public class Drone : MonoBehaviour {
 
         // Applying rotation.
         Quaternion deltaRotation = Quaternion.Euler(currentAngularRotation * Time.fixedDeltaTime);
-        rb.MoveRotation(rb.rotation * deltaRotation);
+        _rb.MoveRotation(_rb.rotation * deltaRotation);
     }
     #endregion
 
     #region Interaction
     public void Interact(InputAction.CallbackContext ctx) {
-        if (ctx.phase == InputActionPhase.Performed && interactable != null)
-            interactable.Interact();
+        if (ctx.phase == InputActionPhase.Performed && _interactable != null)
+            _interactable.Interact();
     }
     public void SetInteractable(Interactable interactable) {
-        this.interactable = interactable;
+        this._interactable = interactable;
     }
     public void EarnPoints(int points) {
         score += points;

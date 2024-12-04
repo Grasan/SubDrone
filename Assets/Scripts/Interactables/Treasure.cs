@@ -16,7 +16,7 @@ public class Treasure : Interactable {
     }*/
 
     public override void Interact() {
-        player.EarnPoints(treasureSO.points);
+        _drone.EarnPoints(treasureSO.points);
     }
 
 }

@@ -30,30 +30,35 @@ public class FirstPersonCharacter : MonoBehaviour {
     [SerializeField] private Vector2 movementInputAxis;
     private Vector3 velocity;
     [SerializeField] private Vector2 rotationInputAxis;
+    [SerializeField] private Vector3 currentPos;
     #endregion
-    
+
     #region Components
-    private Interactable interactable;
-    private PlayerInput playerInput;
+    [SerializeField] private Interactable _interactable;
+    private PlayerInput _playerInput;
     private string currentControllSchema;
-    private CharacterController characterController;
+    private CharacterController _characterController;
     public Transform groundcheck;
     public LayerMask groundMask;
-    private Camera mainCamera;
+    private Camera _mainCamera;
     #endregion
 
     private void Awake() {
-        playerInput = GetComponent<PlayerInput>();
-        characterController = GetComponent<CharacterController>();
-        mainCamera = GetComponentInChildren<Camera>();
+        _playerInput = GetComponent<PlayerInput>();
+        _characterController = GetComponent<CharacterController>();
+        _mainCamera = GetComponentInChildren<Camera>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        LoadPlayerControllValues();
 
         movementInputAxis = Vector2.zero;
         rotationInputAxis = Vector2.zero;
     }
 
     private void Update() {
-        currentControllSchema = playerInput.currentControlScheme;
+        currentControllSchema = _playerInput.currentControlScheme;
+
+        currentPos = transform.position;
 
         Move();
         Look();
@@ -79,11 +84,11 @@ public class FirstPersonCharacter : MonoBehaviour {
         Vector3 worldMovement = transform.TransformDirection(horizontalMovement) * maxMovementSpeed;
 
         // Apply Movement
-        characterController.Move(worldMovement * Time.deltaTime);
+        _characterController.Move(worldMovement * Time.deltaTime);
 
         // Gravity
         velocity.y += gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+        _characterController.Move(velocity * Time.deltaTime);
     }
     private void Look() {
         float sensitivity = currentControllSchema == "Gamepad" ? joystickSensitivity : mouseSensitivity;
@@ -96,7 +101,7 @@ public class FirstPersonCharacter : MonoBehaviour {
         if (!inverted)
             pitchRotation = -pitchRotation;
 
-        float currentPitch = mainCamera.transform.localEulerAngles.x;
+        float currentPitch = _mainCamera.transform.localEulerAngles.x;
         if (currentPitch > 180f)
             currentPitch -= 360f;
 
@@ -105,23 +110,49 @@ public class FirstPersonCharacter : MonoBehaviour {
 
         // Applying rotations
         transform.Rotate(Vector3.up * yawRotation);
-        mainCamera.transform.localRotation = Quaternion.Euler(pitchRotation, 0f, 0f);
+        _mainCamera.transform.localRotation = Quaternion.Euler(pitchRotation, 0f, 0f);
+    }
+
+    public void ResetPlayer(Transform resetPos) { 
+        _characterController.enabled = false;
+
+        // Reseting the camera and player rotation
+        _mainCamera.transform.eulerAngles = new Vector3(resetPos.rotation.x, 0f, 0f);
+        transform.eulerAngles = new Vector3(0f, resetPos.rotation.y, 0f);
+
+        // Reseting the velocity and position of the player
+        velocity = Vector3.zero;
+        transform.position = resetPos.position;
+
+        _characterController.enabled = true;
     }
     #endregion
 
+    #region Interaction
+    public void SetInteractable(Interactable interactable) {
+        this._interactable = interactable;
+    }
+
     public void Interact(InputAction.CallbackContext ctx) {
         if (ctx.phase == InputActionPhase.Performed) { 
-            if (interactable != null)
-                interactable.Interact();
+            if (_interactable != null)
+                _interactable.Interact();
             else
                 Debug.Log("Nothing to interact with");
         }
     }
+    #endregion
 
     public void Pause(InputAction.CallbackContext ctx) {
         if (ctx.phase == InputActionPhase.Performed) {
 
         }
+    }
+
+    private void LoadPlayerControllValues() {
+        mouseSensitivity = PlayerPrefs.GetFloat("MouseSensetivity", 10f);
+        joystickSensitivity = PlayerPrefs.GetFloat("JoystickSensetivity", 100f);
+        inverted = Boolean.Parse(PlayerPrefs.GetString("Iverted", "false"));
     }
 
     public void StopGameEmulation(InputAction.CallbackContext ctx) {

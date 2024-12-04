@@ -16,6 +16,6 @@ public class TreasureChest : Treasure {
         // Audio effect.
 
         // Remove the trigger component.
-        Destroy(trigger);
+        Destroy(_trigger);
     }
 }

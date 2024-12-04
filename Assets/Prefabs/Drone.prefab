@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158775705032116165}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 158775705706744174}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &158775705032116168
 Camera:
@@ -47,9 +47,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -113,6 +121,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158775705706744163}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -120,7 +129,6 @@ Transform:
   m_Children:
   - {fileID: 158775705032116166}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &158775705706744173
 MonoBehaviour:
@@ -136,15 +144,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droneIntegrity: 1
   score: 0
-  thrustAcceleration: 35
-  ThrustDeceleration: 38
-  maxForwardSpeed: 30
+  thrustAcceleration: 40
+  ThrustDeceleration: 20
+  maxForwardSpeed: 20
   maxElevationSpeed: 25
-  rotationAcceleration: 35
-  rotationDeceleration: 38
+  rotationAcceleration: 50
+  rotationDeceleration: 40
   maxRotationSpeed: 35
   inverted: 1
   collisionConstant: 0.25
+  currentVelocity: {x: 0, y: 0, z: 0}
+  currentAngularRotation: {x: 0, y: 0, z: 0}
+  forwardAxis: 0
+  elevationAxis: 0
+  rotationAxis: {x: 0, y: -0}
+  rollAxis: 0
+  interactable: {fileID: 0}
 --- !u!114 &4581804126991152221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,7 +200,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: de1ade7a-b838-40c9-90bb-9ff2158e34c0
-    m_ActionName: Gameplay/Thrust[/XInputControllerWindows/rightTrigger,/XInputControllerWindows/leftTrigger,/Keyboard/w,/Keyboard/s]
+    m_ActionName: 'Gameplay/Thrust[/XInputControllerWindows/rightTrigger,/XInputControllerWindows/leftTrigger,/Keyboard/w,/Keyboard/s]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 158775705706744173}
@@ -201,7 +216,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 16c7c244-aee4-45e2-9731-b23a33d21f97
-    m_ActionName: Gameplay/Elevation[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonEast,/Keyboard/space,/Keyboard/leftCtrl]
+    m_ActionName: 'Gameplay/Elevation[/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonEast,/Keyboard/space,/Keyboard/leftCtrl]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 158775705706744173}
@@ -217,7 +232,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 192c191b-c709-42c6-acf7-8d062b325f2d
-    m_ActionName: Gameplay/Rotation[/XInputControllerWindows/leftStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+    m_ActionName: 'Gameplay/Rotation[/XInputControllerWindows/leftStick,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 158775705706744173}
@@ -233,7 +248,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: dbf0a566-7ea8-40f9-b107-289d1d5725ac
-    m_ActionName: Gameplay/Roll[/XInputControllerWindows/rightShoulder,/XInputControllerWindows/leftShoulder,/Keyboard/e,/Keyboard/q]
+    m_ActionName: 'Gameplay/Roll[/XInputControllerWindows/rightShoulder,/XInputControllerWindows/leftShoulder,/Keyboard/e,/Keyboard/q]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 158775705706744173}
@@ -249,7 +264,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: c8ee2d03-5d68-47c0-9aab-10fcfe955b5c
-    m_ActionName: Gameplay/Interaction[/XInputControllerWindows/buttonWest,/Keyboard/f]
+    m_ActionName: 'Gameplay/Interaction[/XInputControllerWindows/buttonWest,/Keyboard/f]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
@@ -280,6 +295,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -313,9 +331,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158775705706744163}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 2, y: 1, z: 5.2}
   m_Center: {x: 0, y: 0.2, z: 0.5}
 --- !u!54 &5891167236772737574
@@ -325,10 +351,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158775705706744163}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 5
   m_AngularDrag: 5
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
