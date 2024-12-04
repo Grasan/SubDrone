@@ -1,16 +1,17 @@
 using UnityEngine;
 
-public class QuestItem : Treasure {
-    
+namespace SubDrone {
+    public class QuestItem : Treasure {
 
-    public override void Interact() {
-        base.Interact();
+        public override void Interact() {
+            base.Interact();
 
-        // Special audio effect.
+            // Special audio effect.
 
-        // message player, mission complete.
+            // message player, mission complete.
 
-        // Remove ocject from scene.
-        Destroy(gameObject);
+            // Remove ocject from scene.
+            Destroy(gameObject);
+        }
     }
 }

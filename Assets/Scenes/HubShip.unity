@@ -450,9 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd8254bab08ae94fb8d9e8b6085a0e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _drone: {fileID: 0}
-  _fpsCharacter: {fileID: 0}
-  findFPSCharacter: 0
+  _player: {fileID: 0}
   playing: 0
   interaction: {fileID: 0}
   song: {fileID: 0}
@@ -557,6 +555,7 @@ GameObject:
   - component: {fileID: 380192219}
   - component: {fileID: 380192221}
   - component: {fileID: 380192222}
+  - component: {fileID: 380192223}
   m_Layer: 0
   m_Name: FirstPerson
   m_TagString: Player
@@ -605,7 +604,6 @@ MonoBehaviour:
   movementInputAxis: {x: 0, y: 0}
   rotationInputAxis: {x: 0, y: 0}
   currentPos: {x: 0, y: 0, z: 0}
-  _interactable: {fileID: 0}
   groundcheck: {fileID: 48285455}
   groundMask:
     serializedVersion: 2
@@ -669,8 +667,8 @@ MonoBehaviour:
     m_ActionName: 'Gameplay/Look[/XInputControllerWindows/rightStick,/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 380192219}
-        m_TargetAssemblyTypeName: FirstPersonCharacter, Assembly-CSharp
+      - m_Target: {fileID: 380192223}
+        m_TargetAssemblyTypeName: SubDrone.Player, Assembly-CSharp
         m_MethodName: Interact
         m_Mode: 0
         m_Arguments:
@@ -701,8 +699,8 @@ MonoBehaviour:
     m_ActionName: 'Gameplay/Pause[/XInputControllerWindows/start,/Keyboard/p]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 380192219}
-        m_TargetAssemblyTypeName: FirstPersonCharacter, Assembly-CSharp
+      - m_Target: {fileID: 380192223}
+        m_TargetAssemblyTypeName: SubDrone.Player, Assembly-CSharp
         m_MethodName: StopGameEmulation
         m_Mode: 0
         m_Arguments:
@@ -749,6 +747,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &380192223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 380192214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ea772472e095f4b87c9fef6224b147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactable: {fileID: 0}
 --- !u!1 &508517405 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 091df2219cecc8c49aca81822b8c9aae, type: 3}
@@ -1419,9 +1430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67fb5b47ba5b28a47a33ea86576aaa76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _drone: {fileID: 0}
-  _fpsCharacter: {fileID: 0}
-  findFPSCharacter: 1
+  _player: {fileID: 0}
 --- !u!65 &1631390645
 BoxCollider:
   m_ObjectHideFlags: 0

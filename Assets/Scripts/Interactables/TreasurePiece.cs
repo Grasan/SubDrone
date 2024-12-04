@@ -1,12 +1,14 @@
-public class TreasurePiece : Treasure {
+namespace SubDrone {
+    public class TreasurePiece : Treasure {
 
-    public override void Interact() {
-        base.Interact();
+        public override void Interact() {
+            base.Interact();
 
-        // Audio effect
+            // Audio effect
 
-        // Remove object from the scene
-        Destroy(gameObject);
+            // Remove object from the scene
+            Destroy(gameObject);
+        }
+
     }
-
 }

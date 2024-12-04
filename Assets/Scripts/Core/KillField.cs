@@ -1,20 +1,21 @@
 using UnityEngine;
 
-public class KillField : MonoBehaviour {
+namespace SubDrone {
+    public class KillField : MonoBehaviour {
+        private GameObject player;
 
-    private GameObject player;
+        public Transform resetPosition;
 
-    public Transform resetPosition;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() {
-        player = GameObject.FindWithTag("Player");
-    }
+        // Start is called once before the first execution of Update after the MonoBehaviour is created
+        void Start() {
+            player = GameObject.FindWithTag("Player");
+        }
 
-    private void OnTriggerEnter(Collider other) {
-        if (other.gameObject.tag == "Player") {
+        private void OnTriggerEnter(Collider other) {
+            if (other.gameObject.tag == "Player") {
 
-            player.GetComponent<FirstPersonCharacter>().ResetPlayer(resetPosition);
+                player.GetComponent<FirstPersonCharacterController>().ResetPlayer(resetPosition);
+            }
         }
     }
 }
