@@ -102,6 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 158775705706744174}
   - component: {fileID: 158775705706744173}
+  - component: {fileID: 6815640499638943991}
   - component: {fileID: 4581804126991152221}
   - component: {fileID: 158775705706744172}
   - component: {fileID: 158775705706744171}
@@ -143,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droneIntegrity: 1
-  score: 0
+  points: 0
   thrustAcceleration: 40
   ThrustDeceleration: 20
   maxForwardSpeed: 20
@@ -159,7 +160,18 @@ MonoBehaviour:
   elevationAxis: 0
   rotationAxis: {x: 0, y: -0}
   rollAxis: 0
-  interactable: {fileID: 0}
+--- !u!114 &6815640499638943991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158775705706744163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ea772472e095f4b87c9fef6224b147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4581804126991152221
 MonoBehaviour:
   m_ObjectHideFlags: 0

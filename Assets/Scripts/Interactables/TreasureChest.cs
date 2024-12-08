@@ -2,22 +2,34 @@ using UnityEngine;
 
 namespace SubDrone {
     public class TreasureChest : Treasure {
+        private bool _isOpen = false;
 
-        //Animator openingClip;
-
-        private void Awake() {
-            if (treasureSO.type == TreasureSO.TreasureType.Chest)
-                Debug.LogWarning("You're trying to use a treasure not of chest type!");
+        #if UNITY_EDITOR
+        private void OnValidate() {
+            if (treasureSO != null && treasureSO.type != TreasureSO.TreasureType.Chest) {
+                Debug.LogWarning($"Warning: The Treasure assigned {name} in not of type 'Chest'. Please assign a valid TreasureSO of type 'Chest'.", this);
+                treasureSO = null;
+            }
         }
+        #endif
 
         public override void Interact() {
-            base.Interact();
-            // Animate The lid.
+            if (treasureSO == null) return;
 
-            // Audio effect.
+            base.Interact();
+
+            OpenLid();
 
             // Remove the trigger component.
             Destroy(_trigger);
+        }
+
+        /**
+         * Instead of using Unity's animation system, 
+         * the lid will be animated by changing the local rotation.
+         */
+        private void OpenLid() {
+
         }
     }
 }

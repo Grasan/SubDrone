@@ -21,19 +21,27 @@ namespace SubDrone {
             this._interactable = interactable;
         }
         public void Interact(InputAction.CallbackContext ctx) {
-            if (ctx.phase == InputActionPhase.Performed && _interactable != null)
+            if (ctx.phase != InputActionPhase.Performed)
+                return;
+
+            if (_interactable == null) {
+                Debug.Log("Nothing to interact with.");
+                return;
+            } else
                 _interactable.Interact();
         }
         public void Pause(InputAction.CallbackContext ctx) {
-            if (ctx.phase == InputActionPhase.Performed) {
+            if (ctx.phase != InputActionPhase.Performed)
+                return;
 
-            }
+            Debug.Log("Pause function not yet setup.");
         }
         public void StopGameEmulation(InputAction.CallbackContext ctx) {
-            if (ctx.phase == InputActionPhase.Performed) {
-                Application.Quit();
-                EditorApplication.ExitPlaymode();
-            }
+            if (ctx.phase != InputActionPhase.Performed)
+                return;
+
+            Application.Quit();
+            EditorApplication.ExitPlaymode();
         }
         public void EarnPoints(int points) {
             _droneController.earnPoints(points);

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace SubDrone {
     public abstract class Interactable : MonoBehaviour {
         protected SphereCollider _trigger;
-        [SerializeField] protected Player _player;
+        protected Player _player;
 
         private const string PLAYER_TAG = "Player";
 
