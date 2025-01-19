@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2098560366591424178}
   - component: {fileID: 2098560366591424182}
-  - component: {fileID: 2098560366591424179}
   m_Layer: 0
   m_Name: TreasurePiece
   m_TagString: Untagged
@@ -54,17 +53,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.75
   m_Center: {x: 0, y: 0, z: 0.1495796}
---- !u!114 &2098560366591424179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2098560366591424181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c63456e14066d0499f5c3f0d9be2e5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  treasureSO: {fileID: 0}
-  pickupSound: {fileID: 0}
