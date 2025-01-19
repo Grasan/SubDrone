@@ -3,9 +3,9 @@
     <ui:VisualElement name="panel" class="panel" style="height: 100%; max-width: none; max-height: none; min-width: auto; align-items: center; width: 100%; justify-content: center;">
         <ui:VisualElement name="menu" class="menu" style="margin-left: 0; margin-right: 0; margin-bottom: 0; margin-top: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
             <ui:Label text="Game Paused" display-tooltip-when-elided="true" style="align-items: center; margin-bottom: 5px; font-size: 45px; padding-left: 0; padding-right: 0; margin-right: 5px; margin-left: 5px; margin-top: 5px;" />
-            <ui:Button text="Continue" display-tooltip-when-elided="true" class="menu_button" />
-            <ui:Button text="Settings" display-tooltip-when-elided="true" class="menu_button" />
-            <ui:Button text="Exit" display-tooltip-when-elided="true" class="menu_button" />
+            <ui:Button text="Continue" display-tooltip-when-elided="true" name="PlayButton" class="menu_button" />
+            <ui:Button text="Settings" display-tooltip-when-elided="true" name="SettingsButton" class="menu_button" />
+            <ui:Button text="Exit" display-tooltip-when-elided="true" name="ExitButton" class="menu_button" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

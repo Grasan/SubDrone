@@ -1,5 +1,6 @@
 .panel {
     background-color: rgba(42, 125, 222, 0.69);
+    display: flex;
 }
 
 .menu {
@@ -25,5 +26,11 @@
     margin-bottom: 15px;
     font-size: 30px;
     justify-content: center;
-    background-color: rgba(70, 85, 221, 255);
+    background-color: rgb(70, 85, 221);
+}
+
+.menu_button:hover {
+    background-color: rgb(141, 150, 229);
+    transition-duration: 100ms;
+    transition-timing-function: ease;
 }

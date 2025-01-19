@@ -1,0 +1,11 @@
+.group {
+    flex-direction: row;
+    background-color: rgba(140, 140, 140, 0.55);
+}
+
+.label {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(0, 118, 4);
+    font-size: 24px;
+}
