@@ -88,15 +88,22 @@ namespace SubDrone {
         }
 
         private void Move() {
-            Vector3 targetSpeed = new(0, elevationAxis * maxElevationSpeed, forwardAxis * maxForwardSpeed);
+            Vector3 targetSpeed = new Vector3(0, elevationAxis * maxElevationSpeed, forwardAxis * maxForwardSpeed);
 
             if (targetSpeed.magnitude > 0.1f)
                 currentVelocity = Vector3.MoveTowards(currentVelocity, targetSpeed, thrustAcceleration * Time.fixedDeltaTime);
             else
                 currentVelocity = Vector3.MoveTowards(currentVelocity, Vector3.zero, ThrustDeceleration * Time.fixedDeltaTime);
 
-            // Applying movement.
-            _rb.MovePosition(_rb.position + transform.TransformDirection(currentVelocity) * Time.fixedDeltaTime);
+            Vector3 movement = transform.TransformDirection(currentVelocity) * Time.fixedDeltaTime;
+
+            if(Physics.Raycast(_rb.position, movement.normalized, out RaycastHit hit, movement.magnitude)) {
+                Debug.Log("Collision detected with: " + hit.collider.name);
+                currentVelocity = Vector3.zero;
+            } else {
+                // Applying movement.
+                _rb.MovePosition(_rb.position + movement);
+            }
         }
         private void Rotate() {
             Vector3 targetAngularVelocity = new(
