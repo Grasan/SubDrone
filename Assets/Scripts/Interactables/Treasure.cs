@@ -6,21 +6,37 @@ namespace SubDrone {
         public TreasureSO treasureSO;
         private GameObject _instantiatedPrefab;
 
+        #if UNITY_EDITOR
+        private TreasureSO _previusTreasureSO;
+        #endif
+
         private void Awake() {
             SetupTreasure();
         }
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         private void OnValidate() {
-            SetupTreasure();
+            UnityEditor.EditorApplication.delayCall += () => {
+                if (this != null && _previusTreasureSO != treasureSO) {
+                    SetupTreasure();
+                    _previusTreasureSO = treasureSO;
+                }
+            };
         }
-        #endif
+#endif
 
-        private void SetupTreasure() {
+        protected void SetupTreasure() {
+
+            if (_instantiatedPrefab != null) {
+                if (Application.isPlaying) 
+                    Destroy(_instantiatedPrefab);
+                else
+                    DestroyImmediate(_instantiatedPrefab);
+
+                _instantiatedPrefab = null;
+            }
+
             if (treasureSO == null) return;
-
-            if (_instantiatedPrefab != null) 
-                DestroyImmediate(_instantiatedPrefab);
 
             if (treasureSO.treasurePrefab != null) {
                 _instantiatedPrefab = Instantiate(treasureSO.treasurePrefab, transform);

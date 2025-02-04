@@ -10,6 +10,4 @@ public class TreasureSO : ScriptableObject {
     public AudioClip pickupSound;
 
     public enum TreasureType { SmallPiece, MediumPiece, LargePiece, Chest, Quest };
-
-
 }

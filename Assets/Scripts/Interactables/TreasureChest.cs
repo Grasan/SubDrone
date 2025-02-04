@@ -3,12 +3,20 @@ using UnityEngine;
 namespace SubDrone {
     public class TreasureChest : Treasure {
         private bool _isOpen = false;
+        public GameObject lid;
+
+        [SerializeField] private AnimationCurve _lidAnimationCurve;
 
         #if UNITY_EDITOR
         private void OnValidate() {
-            if (treasureSO != null && treasureSO.type != TreasureSO.TreasureType.Chest) {
+            if (treasureSO == null)
+                return;
+            
+            if(treasureSO.type != TreasureSO.TreasureType.Chest) {
                 Debug.LogWarning($"Warning: The Treasure assigned {name} in not of type 'Chest'. Please assign a valid TreasureSO of type 'Chest'.", this);
                 treasureSO = null;
+            } else {
+                SetupTreasure();
             }
         }
         #endif
