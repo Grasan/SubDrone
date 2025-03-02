@@ -1,7 +1,10 @@
 using UnityEngine;
 
-namespace SubDrone {
-    public class TreasureChest : Treasure {
+namespace SubDrone.Interactables {
+    public class TreasureChest : Treasure
+    {
+        public TreasureChestScriptableObject chest;
+        
         private bool _isOpen = false;
         public GameObject lid;
 
@@ -9,20 +12,13 @@ namespace SubDrone {
 
         #if UNITY_EDITOR
         private void OnValidate() {
-            if (treasureSO == null)
+            if (treasure == null)
                 return;
-            
-            if(treasureSO.type != TreasureSO.TreasureType.Chest) {
-                Debug.LogWarning($"Warning: The Treasure assigned {name} in not of type 'Chest'. Please assign a valid TreasureSO of type 'Chest'.", this);
-                treasureSO = null;
-            } else {
-                SetupTreasure();
-            }
         }
         #endif
 
         public override void Interact() {
-            if (treasureSO == null) return;
+            if (treasure == null) return;
 
             base.Interact();
 
