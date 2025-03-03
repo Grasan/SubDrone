@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using SubDrone.Interactables;
 using UnityEngine;
 
-namespace SubDrone {
+namespace SubDrone.Core {
     public class Radar : MonoBehaviour {
 
         [Header("Radar settings")]
@@ -10,7 +11,7 @@ namespace SubDrone {
         private float _scanTimer;
         public LayerMask obstacleMask;
 
-        private readonly List<Treasure> _nearbyTreasure = new List<Treasure>();
+        private readonly List<TreasureBase> _nearbyTreasure = new List<TreasureBase>();
 
         private SphereCollider _trigger;
 
@@ -29,13 +30,13 @@ namespace SubDrone {
         }
 
         private void OnTriggerEnter(Collider other) {
-            if (other.TryGetComponent<Treasure>(out Treasure treasure)) {
+            if (other.TryGetComponent<TreasureBase>(out var treasure)) {
                 _nearbyTreasure.Add(treasure);
             }
         }
 
         private void OnTriggerExit(Collider other) {
-            if (other.TryGetComponent<Treasure>(out Treasure treasure)) {
+            if (other.TryGetComponent<TreasureBase>(out var treasure)) {
                 _nearbyTreasure.Remove(treasure);
             }
         }
@@ -43,40 +44,34 @@ namespace SubDrone {
         private void PingRadar() {
             Debug.Log("Radar ping sent");
 
-            List<TreasurePing> radarPings = new List<TreasurePing>();
+            var radarPings = new List<TreasurePing>();
 
-            foreach (Treasure treasure in _nearbyTreasure) {
-                if (Vector3.Distance(transform.position, treasure.transform.position) <= radarRadius) {
-                    bool isVisible = CheckVisibility(treasure);
-
-                    radarPings.Add(new TreasurePing(treasure, isVisible));
-                }
+            foreach (var treasure in _nearbyTreasure)
+            {
+                if (!(Vector3.Distance(transform.position, treasure.transform.position) <= radarRadius)) continue;
+                
+                var isVisible = CheckVisibility(treasure);
+                radarPings.Add(new TreasurePing(treasure, isVisible));
             }
 
-            if (radarPings.Count > 0)
-                Debug.Log($"{radarPings.Count} treasure(s) found!");
-            else
-                Debug.Log("Nothing found.");
+            Debug.Log(radarPings.Count > 0 ? $"{radarPings.Count} treasure(s) found!" : "Nothing found.");
 
             // UI functionality here.
         }
 
-        private bool CheckVisibility(Treasure treasure) {
-            Vector3 direction = (treasure.transform.position - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, treasure.transform.position);
-
-            if (Physics.Raycast(transform.position, direction, distance, obstacleMask))
-                return false;   // Blocked
-
-            return true;    // Direct sight
+        private bool CheckVisibility(TreasureBase treasure) {
+            var direction = (treasure.transform.position - transform.position).normalized;
+            var distance = Vector3.Distance(transform.position, treasure.transform.position); 
+            
+            return !Physics.Raycast(transform.position, direction, distance, obstacleMask);
         }
     }
 
     public class TreasurePing {
-        public Treasure Treasure;
+        public TreasureBase Treasure;
         public bool IsVisible;
 
-        public TreasurePing(Treasure treasure, bool isVisible) {
+        public TreasurePing(TreasureBase treasure, bool isVisible) {
             Treasure = treasure;
             IsVisible = isVisible;
         }

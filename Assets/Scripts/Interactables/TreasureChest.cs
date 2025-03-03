@@ -1,39 +1,34 @@
 using UnityEngine;
 
 namespace SubDrone.Interactables {
-    public class TreasureChest : Treasure
-    {
-        public TreasureChestScriptableObject chest;
+    [ExecuteInEditMode]
+    public class TreasureChest : Treasure<TreasureChestScriptableObject> {
+        private bool _isOpen;
         
-        private bool _isOpen = false;
-        public GameObject lid;
+        [SerializeField] private AnimationCurve _openCurve;
 
-        [SerializeField] private AnimationCurve _lidAnimationCurve;
-
-        #if UNITY_EDITOR
-        private void OnValidate() {
-            if (treasure == null)
-                return;
+        protected override void Awake() {
+            base.Awake();
+            if (_isOpen) OpenLid();
         }
-        #endif
 
         public override void Interact() {
-            if (treasure == null) return;
-
-            base.Interact();
-
-            OpenLid();
-
-            // Remove the trigger component.
             Destroy(_trigger);
+            
+            _player.EarnPoints(treasure.points);
+            if (treasure.obtainSound != null) 
+                AudioSource.PlayClipAtPoint(treasure.obtainSound, transform.position);
+            
+            OpenLid();
         }
 
         /**
          * Instead of using Unity's animation system, 
-         * the lid will be animated by changing the local rotation.
+         * the lid will be animated by changing the local rotation with the animationCurve variable.
          */
         private void OpenLid() {
-
+            if (!_isOpen)
+                _isOpen = true;
         }
     }
 }
